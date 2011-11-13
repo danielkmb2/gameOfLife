@@ -92,7 +92,6 @@ void updateBoard (struct cell v[X][Y], struct cell v1[X][Y])
 		en v1 tendremos la posicion actualizada de todas las celulas, si están vivas o muertas, 
 		y sobre v se hacen todas las operaciones para no liarla
 	*/
-	v=v1;
 }
 
 void initializeScreen()
@@ -109,12 +108,17 @@ int main()
 {
 	struct cell board[X][Y];
 	struct cell auxBoard[X][Y];
+	int derp=1;
 	initializeScreen();		//useless but cool
 	generateBoard(board);		//with multiple functions using arguments coming soon
 	while (1)
 	{
 		usleep(100000);
-		updateBoard(board,auxBoard);
+		if (derp==1)
+			updateBoard(board,auxBoard);
+		if (derp==-1)
+			updateBoard(auxBoard,board);
+		derp= derp * (-1);
 					//or pressing a button 4 debugging
 	}				//not implemented yed (V)(;,,;)(V)
 	return 0;

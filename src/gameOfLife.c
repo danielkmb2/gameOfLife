@@ -1,11 +1,3 @@
-/*
-	TO-DO LIST
-	
-	DETECTED PROBLEMS
-		consumo cpu
-		wtf borders
-		no quiero ver el puto cursor saltando
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

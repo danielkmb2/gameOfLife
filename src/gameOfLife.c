@@ -5,7 +5,7 @@
 #define X 30
 #define Y 30
 
-typedef struct cell
+struct cell
 {
 	char neighbours;
 	char alive;	//0 muerta - 1 viva
@@ -19,7 +19,7 @@ void generateBoard(struct cell v[X][Y])
 	{
 		for (j=0;j<Y;j++)
 		{
-			v[X][Y].neighbours = 0;
+			v[i][j].neighbours = 0;
 		}
 	}
 	//generar el tablero aleatoriamente, o de algún otro modo alucinante	
@@ -88,13 +88,11 @@ void updateBoard (struct cell v[X][Y])
 				if ((v[i%X][j%Y].neighbours == 2)||(v[i%X][j%Y].neighbours == 3))
 				{
 					v[i%X][j%Y].alive = 1;
-				} else
-				if ((v[i%X][j%Y].neighbours < 2)||(v[i%X][j%Y].neighbours > 3))
+				} else if ((v[i%X][j%Y].neighbours < 2)||(v[i%X][j%Y].neighbours > 3))
 				{
 					v[i%X][j%Y].alive = 0;
 				}
-			} else
-			if ((v[i%X][j%Y].alive == 0)&&(v[i%X][j%Y].neighbours == 3))
+			} else if ((v[i%X][j%Y].alive == 0)&&(v[i%X][j%Y].neighbours == 3))
 			{
 				v[i%X][j%Y].alive = 1;
 			}
@@ -134,6 +132,7 @@ void initializeScreen()
 		exit(EXIT_FAILURE);
 	}
 }
+/*
 void endPrinting()
 {
 	WINDOW * mainwin;
@@ -141,7 +140,7 @@ void endPrinting()
 	endwin();
 	refresh();
 }
-
+*/
 int main()
 {
 	struct cell board[X][Y];
@@ -154,6 +153,6 @@ int main()
 		usleep(1000);		//or pressing a button 4 debugging
 					//not implemented yed (V)(;,,;)(V)
 	}
-	endPrinting();			//tiene gracia porque esto no se va a ejecutar nunca
+//	endPrinting();			//tiene gracia porque esto no se va a ejecutar nunca
 	return 0;
 }

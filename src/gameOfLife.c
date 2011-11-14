@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <ncurses.h>
 #define X 30
 #define Y 30
 
@@ -61,29 +60,25 @@ void updateBoard (char v[X][Y], char v1[X][Y])
 				} else if ((neighbourCounter < 2)||(neighbourCounter > 3))
 				{
 					v1[i%X][j%Y] = 0;
-					mvaddstr(i%X, j%Y, " ");	//output
+					fprintf(stderr,"\033[%d;%dH",i%X,j%Y);
+					printf(" \n");
 				}
 			} else if ((v[i%X][j%Y] == 0)&&(neighbourCounter == 3))
 			{
 				v1[i%X][j%Y] = 1;
-				mvaddstr(i%X, j%Y, "O");		//output
+				fprintf(stderr,"\033[%d;%dH",i%X,j%Y);
+				printf("0\n");
 			} else
 			{
 				v1[i%X][j%Y] = v[i%X][j%Y];	
 			}
-			refresh();
 		}
 	}
 }
 
 void initializeScreen()
 {
-	WINDOW * mainwin;
-	if ( (mainwin = initscr()) == NULL ) 
-	{
-		fprintf(stderr, "Derp while initialising ncurses.\n");
-		exit(EXIT_FAILURE);
-	}
+	fprintf(stderr, "\033[2J");
 }
 
 int main()
@@ -95,7 +90,7 @@ int main()
 	generateBoard(board);		//with multiple functions using arguments coming soon
 	while (1)
 	{
-		usleep(1000);
+		usleep(100000);
 		if (derp==1)
 			updateBoard(board,auxBoard);
 		if (derp==-1)

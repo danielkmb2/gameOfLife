@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #define X 30
-#define Y 30
+#define Y 120
 
 #ifndef CURSES
 #define CURSES 1
@@ -109,10 +109,20 @@ void initializeScreen()
 	nodelay(mainwin,1);
 	werase(mainwin);
 }
+void endScreen()
+{
+	erase();
+	endwin();
+}
 #else
 void initializeScreen()
 {
 	fprintf(stderr, "\033[2J");
+}
+
+void endScreen()
+{
+	//not exit method implemented yed (V)(;,,;)(V)
 }
 #endif
 
@@ -121,16 +131,28 @@ int main()
 	char board[X][Y];
 	char auxBoard[X][Y];
 	char derp=1;
-	initializeScreen();		//useless but cool
+	char c=49;
+	int n=1;
+	initializeScreen();		
 	generateBoard(board);		//with multiple functions using arguments coming soon
+#if CURSES
+	while (c!='q')
+#else
 	while (1)
+#endif
 	{
-		usleep(100000);
+		usleep(100000/n);
 		if (derp==1)
 			updateBoard(board,auxBoard);
 		if (derp==-1)
 			updateBoard(auxBoard,board);
 		derp= derp * (-1);
-	}				//not exit method implemented yed (V)(;,,;)(V)
+#if CURSES
+		c=wgetch(mainwin);
+		if( (c> 48) && (c<58) )
+			n = c-48;
+#endif
+	}			
+	endScreen();
 	return 0;
 }

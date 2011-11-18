@@ -1,5 +1,5 @@
 all:
-	gcc -g -Wall -Werror gameOfLife.c -o gameOfLife
+	gcc -lcurses -g -Wall -Werror gameOfLife.c -o gameOfLife
 
 run: all
 	./gameOfLife

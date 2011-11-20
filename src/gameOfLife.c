@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#define X 30
-#define Y 120
+#include <time.h>
+#define X 39
+#define Y 146
 
 #ifndef CURSES
 #define CURSES 1
@@ -13,32 +14,66 @@
 WINDOW *mainwin;
 #endif
 
-void generateBoard(char v[X][Y])
+void generateBoard(char v[X][Y],int mode)
+/*
+	modes:
+		1- glider
+		2- random board
+*/
 {
-	/*
-	0|\/|G H4><0|2!!!!!!1111	  
-	     j-1  j  j+1
-	    +---+---+---+
-	 i-1|   | # |   |
-	    +---+---+---+	
-	 i  | # |   |   |
-            +---+---+---+
-	 i+1| # | # | # |
-	    +---+---+---+
-	*/
-	int i,j;
-	for (i=0;i<X;i++)
+
+	switch (mode)
 	{
-		for (j=0;j<Y;j++)
+		case 0:
 		{
-			v[i][j] = 0;
-		}
+			printf("if u are stupid, dont use this program for your security\n");	
+			endwin();
+			exit(1);
+		}break;
+
+		case 1:
+		{
+			/*
+			0|\/|G H4><0|2!!!!!!1111	  
+			     j-1  j  j+1
+			    +---+---+---+
+			 i-1|   | # |   |
+			    +---+---+---+	
+			 i  | # |   |   |
+        		    +---+---+---+
+			 i+1| # | # | # |
+			    +---+---+---+
+			*/
+			int i,j;
+			for (i=0;i<X;i++)
+			{
+				for (j=0;j<Y;j++)
+				{
+					v[i][j] = 0;
+				}
+			}
+			v[14][15] = 1;
+			v[15][14] = 1;
+			v[16][14] = 1;
+			v[16][15] = 1;
+			v[16][16] = 1;
+		}break;
+
+		case 2:			//RANDOM BOARD
+		{
+
+        		srand(time(NULL));
+        		int i,j;
+        		for (i=0;i<X;i++)
+        	        	for (j=0;j<Y; j++)	
+					v[i][j] = (rand() % 2);
+		}break;
+			//implement fucking glider gun... zzZzZZZzzzZzzzZzzzzZz
+		case 3:
+		{
+			
+		}break;
 	}
-	v[14][15] = 1;
-	v[15][14] = 1;
-	v[16][14] = 1;
-	v[16][15] = 1;
-	v[16][16] = 1;
 }
 
 void updateBoard (char v[X][Y], char v1[X][Y])
@@ -123,18 +158,27 @@ void initializeScreen()
 void endScreen()
 {
 	//not exit method implemented yed (V)(;,,;)(V)
+	//in fact, not necesary because herpaponga derpa
 }
 #endif
 
-int main()
+int main(int argc, char* argv[])
 {
 	char board[X][Y];
 	char auxBoard[X][Y];
 	char derp=1;
 	char c=49;
 	int n=1;
-	initializeScreen();		
-	generateBoard(board);		//with multiple functions using arguments coming soon
+	int mode=0;
+	if (argc == 2) 
+		{
+			initializeScreen();		
+			mode = atoi(argv[1]);
+		}
+	else
+		mode = 0;
+
+	generateBoard(board,mode);		//with multiple functions using arguments coming soon
 #if CURSES
 	while (c!='q')
 #else

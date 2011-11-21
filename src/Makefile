@@ -5,10 +5,12 @@
 CC=gcc
 CCOPTS=-g -Wall -Werror -O2
 
+EXE=gameOfLife-curses gameOfLife-nocurses
+DSYM=gameOfLife-curses.dSYM gameOfLife-nocurses.dSYM
 
 all: gameOfLife
 
-gameOfLife: gameOfLife-curses gameOfLife-nocurses
+gameOfLife: ${EXE}
 	ln -s gameOfLife-curses gameOfLife
 
 gameOfLife-nocurses:
@@ -22,4 +24,9 @@ run-curses: gameOfLife-curses
 
 run-nocurse: gameOfLife-nocurses
 	./gameOfLife-nocurses
+
+clean:
+	rm ${EXE}
+	rm gameOfLife
+	rm -r ${DSYM}
 

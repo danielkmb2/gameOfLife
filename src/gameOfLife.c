@@ -24,7 +24,9 @@ void generateBoard(char v[X][Y],int mode)
 		case 0:
 		{
 			printf("if u are stupid, dont use this program for your security\n");	
+#ifdef NCURSES
 			endwin();
+#endif
 			exit(1);
 		}break;
 
@@ -164,7 +166,9 @@ int main(int argc, char* argv[])
 	char board[X][Y];
 	char auxBoard[X][Y];
 	char derp=1;
+#ifdef NCURSES
 	char c=49;
+#endif
 	int n=1;
 	int mode=0;
 	if (argc == 2) 

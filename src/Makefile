@@ -13,10 +13,10 @@ all: gameOfLife
 gameOfLife: ${EXE}
 	ln -s gameOfLife-curses gameOfLife
 
-gameOfLife-nocurses:
+gameOfLife-nocurses: gameOfLife.c
 	${CC} ${CCOPTS} gameOfLife.c -o gameOfLife-nocurses
 
-gameOfLife-curses:
+gameOfLife-curses: gameOfLife.c
 	${CC} ${CCOPTS} -lcurses -DNCURSES gameOfLife.c -o gameOfLife-curses
 
 run-curses: gameOfLife-curses

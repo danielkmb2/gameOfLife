@@ -5,11 +5,8 @@
 #define X 39
 #define Y 146
 
-#ifndef CURSES
-#define CURSES 1
-#endif
 
-#if CURSES
+#ifdef NCURSES
 #include <ncurses.h>
 WINDOW *mainwin;
 #endif
@@ -27,7 +24,9 @@ void generateBoard(char v[X][Y],int mode)
 		case 0:
 		{
 			printf("if u are stupid, dont use this program for your security\n");	
+#ifdef NCURSES
 			endwin();
+#endif
 			exit(1);
 		}break;
 
@@ -103,7 +102,7 @@ void updateBoard (char v[X][Y], char v1[X][Y])
 				} else if ((neighbourCounter < 2)||(neighbourCounter > 3))
 				{
 					v1[i%X][j%Y] = 0;
-#if CURSES
+#ifdef NCURSES
 					mvaddstr(i,j," ");
 #else
 					fprintf(stderr,"\033[%d;%dH",i,j);
@@ -113,7 +112,7 @@ void updateBoard (char v[X][Y], char v1[X][Y])
 			} else if ((v[i%X][j%Y] == 0)&&(neighbourCounter == 3))
 			{
 				v1[i%X][j%Y] = 1;
-				#if CURSES
+				#ifdef NCURSES
 				mvaddstr(i,j,"0");
 				#else
 				fprintf(stderr,"\033[%d;%dH",i%X,j%Y);
@@ -125,12 +124,12 @@ void updateBoard (char v[X][Y], char v1[X][Y])
 			}
 		}
 	}
-	#if CURSES
+	#ifdef NCURSES
 	wrefresh(mainwin);
 	#endif
 }
 
-#if CURSES
+#ifdef NCURSES
 void initializeScreen()
 {
 	if (!(mainwin = initscr()))
@@ -167,7 +166,9 @@ int main(int argc, char* argv[])
 	char board[X][Y];
 	char auxBoard[X][Y];
 	char derp=1;
+#ifdef NCURSES
 	char c=49;
+#endif
 	int n=1;
 	int mode=0;
 	if (argc == 2) 
@@ -179,7 +180,7 @@ int main(int argc, char* argv[])
 		mode = 0;
 
 	generateBoard(board,mode);		//with multiple functions using arguments coming soon
-#if CURSES
+#ifdef NCURSES
 	while (c!='q')
 #else
 	while (1)
@@ -191,7 +192,7 @@ int main(int argc, char* argv[])
 		if (derp==-1)
 			updateBoard(auxBoard,board);
 		derp= derp * (-1);
-#if CURSES
+#ifdef NCURSES
 		c=wgetch(mainwin);
 		if( (c> 48) && (c<58) )
 			n = c-48;

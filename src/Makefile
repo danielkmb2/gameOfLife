@@ -11,7 +11,7 @@ all: gameOfLife
 gameOfLife: gameOfLife-curses gameOfLife-nocurses
 	ln -s gameOfLife-curses gameOfLife
 
-gameOfLife-nocurses
+gameOfLife-nocurses:
 	${CC} ${CCOPTS} gameOfLife.c -o gameOfLife-nocurses
 
 gameOfLife-curses:

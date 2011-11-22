@@ -1,0 +1,4 @@
+compile with
+	make gameOfLife-curses  -> slower but cooler
+	make gameOfLife-nocurses -> faster and shitty
+	make -> make everything
